@@ -25,6 +25,7 @@ session, db, T, auth, and tempates are examples of Fixtures.
 Warning: Fixtures MUST be declared with @action.uses({fixtures}) else your app will result in undefined behavior
 """
 
+# from os import uname
 import uuid
 
 from py4web import action, request, abort, redirect, URL, Field
@@ -34,7 +35,7 @@ from py4web.utils.url_signer import URLSigner
 from yatl.helpers import A
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 
-from .models import get_user_email
+# from .models import get_user_email
 from pydal.validators import *
 
 url_signer = URLSigner(session)
@@ -46,32 +47,49 @@ def index():
     user = auth.get_user()
     message = T("Hello {first_name}".format(**user) if user else "Hello")
     actions = {"allowed_actions": auth.param.allowed_actions}
-    return dict(message=message, actions=actions)
+    #form for login or answering a survey
+    form_login = Form([Field("Username"), Field("Password")])
+    code_login = Form([Field("login_by_code")])
+    return dict(login = form_login, code = code_login)
+
+@action("home")
+@action.uses("home.html", auth, T)
+def index():
+    #form for login or answering a survey
+    form_login = Form([Field("Username"), Field("Password")])
+    code_login = Form([Field("login_by_code")])
+    existing_prompts = ["p1", "p2", "p3"]
+    new_prompts = ["p1", "p2", "p3"]
+
+    #return table of existing prompts owned by user.  and table of public prompts.
+    return dict(existing = existing_prompts, new = new_prompts)
 
 # Add Prompt
 @action('add', method=["GET", "POST"])
 @action.uses(db, session, auth.user, 'add.html')
 def add():
-    form = # ADD TO DB
-    if(form.accepted):
-        redirect(URL('index'))
+    # form = # ADD TO DB
+    # if(form.accepted):
+    #     redirect(URL('index'))
 
-    return dict(form=form)
+    # return dict(form=form)
+    return
 
 # Edit Prompt
 @action('edit/<contact_id:int>', method=["GET", "POST"])
 @action.uses(db, session, auth.user, url_signer.verify(), 'edit.html')
 def edit(contact_id = None):
-    assert contact_id is not None
-    p = # TODO
-    if p is None:
-        redirect(URL('index'))
+    # assert contact_id is not None
+    # p = # TODO
+    # if p is None:
+    #     redirect(URL('index'))
 
-    form = # TODO
-    if(form.accepted):
-        redirect(URL('index'))
+    # form = # TODO
+    # if(form.accepted):
+    #     redirect(URL('index'))
 
-    return dict(form=form)
+    # return dict(form=form)
+    return
 
 # Delete Prompt
 @action('delete/<contact_id:int>', method=["GET", "POST"])
