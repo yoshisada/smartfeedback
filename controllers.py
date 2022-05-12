@@ -33,6 +33,7 @@ from py4web.utils.form import Form, FormStyleBulma
 from py4web.utils.url_signer import URLSigner
 
 from yatl.helpers import A
+from .models import get_user_email
 from .common import db, session, T, cache, auth, logger, authenticated, unauthenticated, flash
 
 # from .models import get_user_email
@@ -42,7 +43,7 @@ url_signer = URLSigner(session)
 
 
 @action("index")
-@action.uses("index.html", auth, T)
+@action.uses("index.html", url_signer, db, auth)
 def index():
     user = auth.get_user()
     message = T("Hello {first_name}".format(**user) if user else "Hello")
@@ -50,30 +51,30 @@ def index():
     #form for login or answering a survey
     form_login = Form([Field("Username"), Field("Password")])
     code_login = Form([Field("login_by_code")])
-    return dict(login = form_login, code = code_login)
+    return dict(login = form_login, code = code_login, url_signer=url_signer)
 
 @action("home")
-@action.uses("home.html", auth, T)
-def index():
+@action.uses(db, auth.user, 'home.html')
+def home():
     #form for login or answering a survey
     form_login = Form([Field("Username"), Field("Password")])
     code_login = Form([Field("login_by_code")])
-    existing_prompts = ["p1", "p2", "p3"]
-    new_prompts = ["p1", "p2", "p3"]
+    existing_prompts = db(db.question.question_owner == get_user_email()).select()
+    new_prompts = db(db.question).select()
+    
 
     #return table of existing prompts owned by user.  and table of public prompts.
-    return dict(existing = existing_prompts, new = new_prompts)
+    return dict(existing = existing_prompts, new = new_prompts, url_signer=url_signer)
 
 # Add Prompt
 @action('add', method=["GET", "POST"])
-@action.uses(db, session, auth.user, 'add.html')
+@action.uses(db, session, auth.user, 'add.html', url_signer.verify())
 def add():
-    # form = # ADD TO DB
-    # if(form.accepted):
-    #     redirect(URL('index'))
-
-    # return dict(form=form)
-    return
+    form = Form(db.question, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
+    if form.accepted:
+        # The update already happened!
+        redirect(URL('index'))
+    return dict(form=form)
 
 # Edit Prompt
 @action('edit/<contact_id:int>', method=["GET", "POST"])

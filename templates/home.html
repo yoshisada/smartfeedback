@@ -1,8 +1,8 @@
 [[extend 'layout.html']]
 
-<div class="section">
+<div class="section" >
 
-    <a class="button is-success">
+    <a class="button is-success" href="[[=URL('add', signer=url_signer)]]">
       <span class="icon"><i class="fa fa-plus"></i></span>
       <span>Create New Prompt</span>
     </a>
@@ -41,7 +41,7 @@
         [[for row in range(len(new)):]]
         <tr>
          <td>[[=row]]</td>
-          <td>[[=existing[row]]]</td>
+          <td>[[=new[row]]]</td>
           <td></td>
           
           <td>

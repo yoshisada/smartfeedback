@@ -19,3 +19,35 @@ CREATE TABLE "auth_user_tag_groups"(
     "record_id" INTEGER REFERENCES "auth_user" ("id") ON DELETE CASCADE  
 );
 success!
+timestamp: 2022-05-11T23:47:11.067147
+CREATE TABLE "question"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "title" CHAR(512),
+    "description" CHAR(512),
+    "creation_time" CHAR(512),
+    "question_owner" CHAR(512),
+    "question_id" CHAR(512),
+    "status" CHAR(512),
+    "dupe_num" CHAR(512)
+);
+success!
+timestamp: 2022-05-11T23:47:57.386375
+CREATE TABLE "ans_items"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "content" CHAR(512),
+    "ranking" CHAR(512),
+    "question_id" CHAR(512),
+    "item_id" CHAR(512),
+    "dupe_num" CHAR(512),
+    "item_owner" CHAR(512)
+);
+success!
+timestamp: 2022-05-11T23:47:57.396428
+CREATE TABLE "feedback"(
+    "id" INTEGER PRIMARY KEY AUTOINCREMENT,
+    "question_id" CHAR(512),
+    "item_id" CHAR(512),
+    "feedback" CHAR(512),
+    "feedback_owner" CHAR(512)
+);
+success!
