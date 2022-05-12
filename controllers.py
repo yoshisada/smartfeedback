@@ -73,7 +73,7 @@ def add():
     form = Form(db.question, deletable=False, csrf_session=session, formstyle=FormStyleBulma)
     if form.accepted:
         # The update already happened!
-        redirect(URL('index'))
+        redirect(URL('home'))
     return dict(form=form)
 
 # Edit Prompt
