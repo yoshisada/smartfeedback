@@ -1,7 +1,13 @@
 [[extend 'layout.html']]
 
 <div class="section">
-  <div class="vars">
-      [[=message]]
+  <div>
+  [[=login]]
   </div>
+  <div>
+  [[=code]]
+</div>
+<a class="button" href="[[=URL('home', signer=url_signer)]]">
+  <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Go To Home</span>
+</a>
 </div>

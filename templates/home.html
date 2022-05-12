@@ -1,0 +1,55 @@
+[[extend 'layout.html']]
+
+<div class="section" >
+
+    <a class="button is-success" href="[[=URL('add', signer=url_signer)]]">
+      <span class="icon"><i class="fa fa-plus"></i></span>
+      <span>Create New Prompt</span>
+    </a>
+  
+    <div class="container">
+        <h3>Existing Prompts</h3>
+      <table class="table is-striped is-halfwidth">
+        <tr>
+          <th>id</th>
+          <th>Prompt</th>
+          <th>Description</th>
+          <th>status</th>
+        </tr>
+        [[for row in range(len(existing)):]]
+        <tr>
+         <td>[[=row]]</td>
+          <td>[[=existing[row]]]</td>
+          <td></td>
+          
+          <td>
+           <a class="button" >
+             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Edit</span>
+           </a>
+         </td>
+        </tr>
+        [[pass]]
+      </table>
+      <h3>Explore Prompts</h3>
+      <table class="table is-striped is-halfwidth">
+        <tr>
+          <th>id</th>
+          <th>Prompt</th>
+          <th>Description</th>
+          <th>status</th>
+        </tr>
+        [[for row in range(len(new)):]]
+        <tr>
+         <td>[[=row]]</td>
+          <td>[[=new[row]]]</td>
+          <td></td>
+          
+          <td>
+           <a class="button" >
+             <span class="icon"><i class="fa fa-fw fa-pencil"></i></span> <span>Edit</span>
+           </a>
+         </td>
+        </tr>
+        [[pass]]
+      </table>
+    </div>
